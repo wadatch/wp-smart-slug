@@ -14,20 +14,27 @@ if ( file_exists( dirname( __DIR__ ) . '/vendor/autoload.php' ) ) {
 if ( getenv( 'WP_TESTS_DIR' ) ) {
 	$wp_tests_dir = getenv( 'WP_TESTS_DIR' );
 	
-	// Load WordPress test framework.
-	require_once $wp_tests_dir . '/includes/functions.php';
-	
-	/**
-	 * Load plugin for testing.
-	 */
-	function _manually_load_plugin() {
-		require dirname( __DIR__ ) . '/wp-smart-slug.php';
+	// Check if WordPress test files exist
+	if ( file_exists( $wp_tests_dir . '/includes/functions.php' ) ) {
+		// Load WordPress test framework.
+		require_once $wp_tests_dir . '/includes/functions.php';
+		
+		/**
+		 * Load plugin for testing.
+		 */
+		function _manually_load_plugin() {
+			require dirname( __DIR__ ) . '/wp-smart-slug.php';
+		}
+		tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
+		
+		// Start up the WP testing environment.
+		require $wp_tests_dir . '/includes/bootstrap.php';
+		return; // Exit early to use WordPress test environment
 	}
-	tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
-	
-	// Start up the WP testing environment.
-	require $wp_tests_dir . '/includes/bootstrap.php';
-} else {
+}
+
+// If WordPress test environment is not available, use mocks
+if ( true ) {
 	// Fallback for unit tests without WordPress.
 	define( 'ABSPATH', '/tmp/' );
 	define( 'WP_DEBUG', true );
@@ -108,6 +115,31 @@ if ( getenv( 'WP_TESTS_DIR' ) ) {
 	if ( ! function_exists( 'add_query_arg' ) ) {
 		function add_query_arg( $args, $url ) {
 			return $url . '?' . http_build_query( $args );
+		}
+	}
+	
+	if ( ! function_exists( 'wp_remote_retrieve_body' ) ) {
+		function wp_remote_retrieve_body( $response ) {
+			return '';
+		}
+	}
+	
+	if ( ! function_exists( 'wp_remote_retrieve_response_code' ) ) {
+		function wp_remote_retrieve_response_code( $response ) {
+			return 200;
+		}
+	}
+	
+	if ( ! function_exists( 'apply_filters' ) ) {
+		function apply_filters( $hook, $value ) {
+			return $value;
+		}
+	}
+	
+	if ( ! function_exists( 'get_option' ) ) {
+		function get_option( $option, $default = false ) {
+			global $wp_options_mock;
+			return isset( $wp_options_mock[ $option ] ) ? $wp_options_mock[ $option ] : $default;
 		}
 	}
 	

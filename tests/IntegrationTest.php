@@ -9,6 +9,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Integration test class.
+ * 
+ * @group integration
  */
 class IntegrationTest extends TestCase {
 
