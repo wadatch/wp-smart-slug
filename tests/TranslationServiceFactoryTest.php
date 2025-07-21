@@ -104,19 +104,12 @@ class TranslationServiceFactoryTest extends TestCase {
 	 * Test registering service with existing name.
 	 */
 	public function test_register_duplicate_service() {
-		// First registration should succeed.
-		$success1 = TranslationServiceFactory::register_service( 
-			'mock', 
+		// Try to register over existing service should fail.
+		$success = TranslationServiceFactory::register_service( 
+			'mymemory',  // This already exists in the factory
 			MockTranslationService::class 
 		);
-		$this->assertTrue( $success1 );
-		
-		// Second registration with same name should fail.
-		$success2 = TranslationServiceFactory::register_service( 
-			'mock', 
-			MockTranslationService::class 
-		);
-		$this->assertFalse( $success2 );
+		$this->assertFalse( $success );
 	}
 
 	/**

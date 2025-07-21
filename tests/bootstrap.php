@@ -66,4 +66,68 @@ if ( getenv( 'WP_TESTS_DIR' ) ) {
 			return htmlspecialchars( $text );
 		}
 	}
+	
+	if ( ! function_exists( 'add_filter' ) ) {
+		function add_filter( $hook, $callback, $priority = 10, $accepted_args = 1 ) {
+			// Mock implementation
+			return true;
+		}
+	}
+	
+	if ( ! function_exists( 'add_action' ) ) {
+		function add_action( $hook, $callback, $priority = 10, $accepted_args = 1 ) {
+			// Mock implementation
+			return true;
+		}
+	}
+	
+	if ( ! function_exists( 'is_admin' ) ) {
+		function is_admin() {
+			return false;
+		}
+	}
+	
+	if ( ! function_exists( 'wp_remote_post' ) ) {
+		function wp_remote_post( $url, $args = [] ) {
+			return new WP_Error( 'mock_error', 'Mock response' );
+		}
+	}
+	
+	if ( ! function_exists( 'wp_remote_get' ) ) {
+		function wp_remote_get( $url, $args = [] ) {
+			return new WP_Error( 'mock_error', 'Mock response' );
+		}
+	}
+	
+	if ( ! function_exists( 'is_wp_error' ) ) {
+		function is_wp_error( $thing ) {
+			return $thing instanceof WP_Error;
+		}
+	}
+	
+	if ( ! function_exists( 'add_query_arg' ) ) {
+		function add_query_arg( $args, $url ) {
+			return $url . '?' . http_build_query( $args );
+		}
+	}
+	
+	// Mock WP_Error class
+	if ( ! class_exists( 'WP_Error' ) ) {
+		class WP_Error {
+			private $errors = [];
+			
+			public function __construct( $code = '', $message = '' ) {
+				if ( ! empty( $code ) ) {
+					$this->errors[ $code ] = [ $message ];
+				}
+			}
+			
+			public function get_error_message() {
+				foreach ( $this->errors as $messages ) {
+					return $messages[0] ?? '';
+				}
+				return '';
+			}
+		}
+	}
 }
