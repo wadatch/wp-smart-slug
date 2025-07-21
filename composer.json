@@ -5,8 +5,7 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "WADA Hiroki",
-            "email": ""
+            "name": "WADA Hiroki"
         }
     ],
     "minimum-stability": "stable",

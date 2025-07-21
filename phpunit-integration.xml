@@ -11,8 +11,8 @@
     verbose="true"
 >
     <testsuites>
-        <testsuite name="WP Smart Slug Test Suite">
-            <directory suffix="Test.php">tests</directory>
+        <testsuite name="WP Smart Slug Integration Test Suite">
+            <file>tests/IntegrationTest.php</file>
         </testsuite>
     </testsuites>
 
