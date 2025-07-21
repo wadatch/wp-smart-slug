@@ -6,38 +6,38 @@
  */
 
 // Prevent direct access.
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
 	exit;
 }
 ?>
 
 <div class="wrap">
-	<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+	<h1><?php echo esc_html(get_admin_page_title()); ?></h1>
 
 	<div class="wp-smart-slug-batch">
 		<div class="batch-stats">
-			<h2><?php esc_html_e( 'Processing Statistics', 'wp-smart-slug' ); ?></h2>
+			<h2><?php esc_html_e('Processing Statistics', 'wp-smart-slug'); ?></h2>
 			<table class="widefat fixed">
 				<tbody>
 					<tr>
-						<td><strong><?php esc_html_e( 'Total Posts', 'wp-smart-slug' ); ?></strong></td>
-						<td id="stat-total"><?php echo esc_html( number_format( $stats['total'] ) ); ?></td>
+						<td><strong><?php esc_html_e('Total Posts', 'wp-smart-slug'); ?></strong></td>
+						<td id="stat-total"><?php echo esc_html(number_format($stats['total'])); ?></td>
 					</tr>
 					<tr>
-						<td><strong><?php esc_html_e( 'Processed', 'wp-smart-slug' ); ?></strong></td>
-						<td id="stat-processed"><?php echo esc_html( number_format( $stats['processed'] ) ); ?></td>
+						<td><strong><?php esc_html_e('Processed', 'wp-smart-slug'); ?></strong></td>
+						<td id="stat-processed"><?php echo esc_html(number_format($stats['processed'])); ?></td>
 					</tr>
 					<tr>
-						<td><strong><?php esc_html_e( 'Remaining', 'wp-smart-slug' ); ?></strong></td>
-						<td id="stat-remaining"><?php echo esc_html( number_format( $stats['remaining'] ) ); ?></td>
+						<td><strong><?php esc_html_e('Remaining', 'wp-smart-slug'); ?></strong></td>
+						<td id="stat-remaining"><?php echo esc_html(number_format($stats['remaining'])); ?></td>
 					</tr>
 					<tr>
-						<td><strong><?php esc_html_e( 'Progress', 'wp-smart-slug' ); ?></strong></td>
+						<td><strong><?php esc_html_e('Progress', 'wp-smart-slug'); ?></strong></td>
 						<td>
 							<div class="progress-bar">
-								<div class="progress-fill" id="progress-fill" style="width: <?php echo esc_attr( $stats['percentage'] ); ?>%"></div>
+								<div class="progress-fill" id="progress-fill" style="width: <?php echo esc_attr($stats['percentage']); ?>%"></div>
 							</div>
-							<span id="progress-text"><?php echo esc_html( $stats['percentage'] ); ?>%</span>
+							<span id="progress-text"><?php echo esc_html($stats['percentage']); ?>%</span>
 						</td>
 					</tr>
 				</tbody>
@@ -45,58 +45,58 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 
 		<div class="batch-controls">
-			<h2><?php esc_html_e( 'Batch Processing', 'wp-smart-slug' ); ?></h2>
-			<p><?php esc_html_e( 'Process existing posts and pages to translate their slugs to English.', 'wp-smart-slug' ); ?></p>
+			<h2><?php esc_html_e('Batch Processing', 'wp-smart-slug'); ?></h2>
+			<p><?php esc_html_e('Process existing posts and pages to translate their slugs to English.', 'wp-smart-slug'); ?></p>
 
 			<form id="batch-form">
-				<?php wp_nonce_field( 'wp_smart_slug_batch', 'wp_smart_slug_batch_nonce' ); ?>
+				<?php wp_nonce_field('wp_smart_slug_batch', 'wp_smart_slug_batch_nonce'); ?>
 				
 				<table class="form-table">
 					<tr>
 						<th scope="row">
-							<label for="post-type"><?php esc_html_e( 'Content Type', 'wp-smart-slug' ); ?></label>
+							<label for="post-type"><?php esc_html_e('Content Type', 'wp-smart-slug'); ?></label>
 						</th>
 						<td>
 							<select id="post-type" name="post_type">
-								<option value="all"><?php esc_html_e( 'All (Posts, Pages, Media)', 'wp-smart-slug' ); ?></option>
-								<option value="post"><?php esc_html_e( 'Posts Only', 'wp-smart-slug' ); ?></option>
-								<option value="page"><?php esc_html_e( 'Pages Only', 'wp-smart-slug' ); ?></option>
-								<option value="attachment"><?php esc_html_e( 'Media Only', 'wp-smart-slug' ); ?></option>
+								<option value="all"><?php esc_html_e('All (Posts, Pages, Media)', 'wp-smart-slug'); ?></option>
+								<option value="post"><?php esc_html_e('Posts Only', 'wp-smart-slug'); ?></option>
+								<option value="page"><?php esc_html_e('Pages Only', 'wp-smart-slug'); ?></option>
+								<option value="attachment"><?php esc_html_e('Media Only', 'wp-smart-slug'); ?></option>
 							</select>
 						</td>
 					</tr>
 					<tr>
 						<th scope="row">
-							<label for="batch-size"><?php esc_html_e( 'Batch Size', 'wp-smart-slug' ); ?></label>
+							<label for="batch-size"><?php esc_html_e('Batch Size', 'wp-smart-slug'); ?></label>
 						</th>
 						<td>
 							<input type="number" id="batch-size" name="batch_size" value="10" min="1" max="100" class="small-text" />
-							<p class="description"><?php esc_html_e( 'Number of posts to process in each batch (1-100).', 'wp-smart-slug' ); ?></p>
+							<p class="description"><?php esc_html_e('Number of posts to process in each batch (1-100).', 'wp-smart-slug'); ?></p>
 						</td>
 					</tr>
 				</table>
 
 				<p class="submit">
 					<button type="button" id="start-batch" class="button button-primary">
-						<?php esc_html_e( 'Start Processing', 'wp-smart-slug' ); ?>
+						<?php esc_html_e('Start Processing', 'wp-smart-slug'); ?>
 					</button>
 					<button type="button" id="stop-batch" class="button" style="display: none;">
-						<?php esc_html_e( 'Stop Processing', 'wp-smart-slug' ); ?>
+						<?php esc_html_e('Stop Processing', 'wp-smart-slug'); ?>
 					</button>
 					<button type="button" id="refresh-stats" class="button">
-						<?php esc_html_e( 'Refresh Statistics', 'wp-smart-slug' ); ?>
+						<?php esc_html_e('Refresh Statistics', 'wp-smart-slug'); ?>
 					</button>
 					<button type="button" id="reset-status" class="button">
-						<?php esc_html_e( 'Reset Processing Status', 'wp-smart-slug' ); ?>
+						<?php esc_html_e('Reset Processing Status', 'wp-smart-slug'); ?>
 					</button>
 				</p>
 			</form>
 		</div>
 
 		<div class="batch-log">
-			<h2><?php esc_html_e( 'Processing Log', 'wp-smart-slug' ); ?></h2>
+			<h2><?php esc_html_e('Processing Log', 'wp-smart-slug'); ?></h2>
 			<div id="log-container">
-				<p><?php esc_html_e( 'Click "Start Processing" to begin.', 'wp-smart-slug' ); ?></p>
+				<p><?php esc_html_e('Click "Start Processing" to begin.', 'wp-smart-slug'); ?></p>
 			</div>
 		</div>
 	</div>

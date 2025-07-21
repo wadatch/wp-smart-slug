@@ -137,20 +137,73 @@ class HookManagerTest extends TestCase {
 	}
 
 	/**
-	 * Test post slug translation when updating existing post.
+	 * Test post slug translation when updating existing post with manual slug.
 	 */
 	public function test_translate_post_slug_update_existing() {
 		$data = [
 			'post_title' => 'こんにちは世界',
-			'post_name'  => 'existing-slug',
+			'post_name'  => 'custom-slug',
 			'post_type'  => 'post',
 		];
 		$postarr = [ 'ID' => 123 ];
 
 		$result = $this->hook_manager->translate_post_slug( $data, $postarr );
 		
-		// Should not change existing slug on update.
+		// Should not change manually set slug on update.
 		$this->assertEquals( $data, $result );
+	}
+
+	/**
+	 * Test post slug translation with auto-draft slug.
+	 */
+	public function test_translate_post_slug_auto_draft() {
+		$data = [
+			'post_title' => 'こんにちは世界',
+			'post_name'  => 'auto-draft',
+			'post_type'  => 'post',
+		];
+		$postarr = [ 'ID' => 123 ];
+
+		$result = $this->hook_manager->translate_post_slug( $data, $postarr );
+		
+		// Should replace auto-draft with translated slug.
+		$this->assertNotEquals( 'auto-draft', $result['post_name'] );
+		$this->assertNotEmpty( $result['post_name'] );
+	}
+
+	/**
+	 * Test post slug translation with auto-generated slug from title.
+	 */
+	public function test_translate_post_slug_auto_generated() {
+		$data = [
+			'post_title' => 'こんにちは世界',
+			'post_name'  => sanitize_title('こんにちは世界'), // Auto-generated
+			'post_type'  => 'post',
+		];
+		$postarr = [ 'ID' => 123 ];
+
+		$result = $this->hook_manager->translate_post_slug( $data, $postarr );
+		
+		// Should replace auto-generated slug with translated slug.
+		$this->assertNotEquals( sanitize_title('こんにちは世界'), $result['post_name'] );
+		$this->assertNotEmpty( $result['post_name'] );
+	}
+
+	/**
+	 * Test English title with auto-draft slug.
+	 */
+	public function test_translate_post_slug_english_auto_draft() {
+		$data = [
+			'post_title' => 'Hello World',
+			'post_name'  => 'auto-draft',
+			'post_type'  => 'post',
+		];
+		$postarr = [ 'ID' => 123 ];
+
+		$result = $this->hook_manager->translate_post_slug( $data, $postarr );
+		
+		// Should replace auto-draft with proper slug for English title.
+		$this->assertEquals( 'hello-world', $result['post_name'] );
 	}
 
 	/**

@@ -10,7 +10,8 @@ namespace WPSmartSlug\Translation;
 /**
  * Base class for translation services.
  */
-abstract class AbstractTranslationService implements TranslationServiceInterface {
+abstract class AbstractTranslationService implements TranslationServiceInterface
+{
 
 	/**
 	 * Service configuration.
@@ -31,7 +32,8 @@ abstract class AbstractTranslationService implements TranslationServiceInterface
 	 *
 	 * @param array $config Configuration array.
 	 */
-	public function set_config( array $config ): void {
+	public function set_config(array $config): void
+    {
 		$this->config = $config;
 	}
 
@@ -40,11 +42,12 @@ abstract class AbstractTranslationService implements TranslationServiceInterface
 	 *
 	 * @return bool
 	 */
-	public function is_available(): bool {
+	public function is_available(): bool
+    {
 		$required = $this->get_required_config();
 		
-		foreach ( $required as $key ) {
-			if ( empty( $this->config[ $key ] ) ) {
+		foreach ($required as $key) {
+			if (empty($this->config[ $key ])) {
 				return false;
 			}
 		}
@@ -61,7 +64,8 @@ abstract class AbstractTranslationService implements TranslationServiceInterface
 	 *
 	 * @return array|WP_Error Response array or WP_Error on failure.
 	 */
-	protected function make_request( string $url, array $args = [], string $method = 'POST' ) {
+	protected function make_request(string $url, array $args = [], string $method = 'POST')
+    {
 		$default_args = [
 			'timeout' => $this->timeout,
 			'headers' => [
@@ -69,24 +73,24 @@ abstract class AbstractTranslationService implements TranslationServiceInterface
 			],
 		];
 
-		if ( 'POST' === $method ) {
+		if ('POST' === $method) {
 			$default_args['method'] = 'POST';
-			$default_args['body']   = wp_json_encode( $args );
-			$response               = wp_remote_post( $url, $default_args );
+			$default_args['body']   = wp_json_encode($args);
+			$response               = wp_remote_post($url, $default_args);
 		} else {
-			$url      = add_query_arg( $args, $url );
-			$response = wp_remote_get( $url, $default_args );
+			$url      = add_query_arg($args, $url);
+			$response = wp_remote_get($url, $default_args);
 		}
 
-		if ( is_wp_error( $response ) ) {
+		if (is_wp_error($response)) {
 			return $response;
 		}
 
-		$body = wp_remote_retrieve_body( $response );
-		$data = json_decode( $body, true );
+		$body = wp_remote_retrieve_body($response);
+		$data = json_decode($body, true);
 
-		if ( null === $data ) {
-			return new \WP_Error( 'json_decode_error', __( 'Failed to decode JSON response', 'wp-smart-slug' ) );
+		if (null === $data) {
+			return new \WP_Error('json_decode_error', __('Failed to decode JSON response', 'wp-smart-slug'));
 		}
 
 		return $data;
@@ -99,32 +103,33 @@ abstract class AbstractTranslationService implements TranslationServiceInterface
 	 *
 	 * @return string Sanitized text suitable for slug.
 	 */
-	protected function sanitize_for_slug( string $text ): string {
+	protected function sanitize_for_slug(string $text): string
+    {
 		// Remove HTML tags.
-		$text = strip_tags( $text );
+		$text = strip_tags($text);
 		
 		// Convert to lowercase.
-		$text = strtolower( $text );
+		$text = strtolower($text);
 		
 		// Replace spaces with hyphens.
-		$text = str_replace( ' ', '-', $text );
+		$text = str_replace(' ', '-', $text);
 		
 		// Remove multiple hyphens.
-		$text = preg_replace( '/-+/', '-', $text );
+		$text = preg_replace('/-+/', '-', $text);
 		
 		// Remove non-alphanumeric characters except hyphens.
-		$text = preg_replace( '/[^a-z0-9-]/', '', $text );
+		$text = preg_replace('/[^a-z0-9-]/', '', $text);
 		
 		// Trim hyphens from start and end.
-		$text = trim( $text, '-' );
+		$text = trim($text, '-');
 		
 		// Limit length to 50 characters for concise slugs.
-		if ( strlen( $text ) > 50 ) {
-			$text = substr( $text, 0, 50 );
+		if (strlen($text) > 50) {
+			$text = substr($text, 0, 50);
 			// Trim at word boundary if possible.
-			$last_hyphen = strrpos( $text, '-' );
-			if ( $last_hyphen > 30 ) {
-				$text = substr( $text, 0, $last_hyphen );
+			$last_hyphen = strrpos($text, '-');
+			if ($last_hyphen > 30) {
+				$text = substr($text, 0, $last_hyphen);
 			}
 		}
 		
@@ -137,14 +142,15 @@ abstract class AbstractTranslationService implements TranslationServiceInterface
 	 * @param string $message Error message.
 	 * @param array  $context Additional context.
 	 */
-	protected function log_error( string $message, array $context = [] ): void {
-		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+	protected function log_error(string $message, array $context = []): void
+    {
+		if (defined('WP_DEBUG') && WP_DEBUG) {
 			error_log(
 				sprintf(
 					'[WP Smart Slug - %s] %s %s',
 					$this->get_name(),
 					$message,
-					$context ? wp_json_encode( $context ) : ''
+					$context ? wp_json_encode($context) : ''
 				)
 			);
 		}

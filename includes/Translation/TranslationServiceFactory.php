@@ -10,7 +10,8 @@ namespace WPSmartSlug\Translation;
 /**
  * Factory class for creating translation service instances.
  */
-class TranslationServiceFactory {
+class TranslationServiceFactory
+{
 
 	/**
 	 * Available translation services.
@@ -38,22 +39,23 @@ class TranslationServiceFactory {
 	 *
 	 * @return TranslationServiceInterface|null Service instance or null if not found.
 	 */
-	public static function create( string $service_name, array $config = [] ): ?TranslationServiceInterface {
-		if ( ! isset( self::$services[ $service_name ] ) ) {
+	public static function create(string $service_name, array $config = []): ?TranslationServiceInterface
+    {
+		if (! isset(self::$services[ $service_name ])) {
 			return null;
 		}
 
-		$cache_key = $service_name . ':' . md5( wp_json_encode( $config ) );
+		$cache_key = $service_name . ':' . md5(wp_json_encode($config));
 
-		if ( ! isset( self::$instances[ $cache_key ] ) ) {
+		if (! isset(self::$instances[ $cache_key ])) {
 			$class_name = self::$services[ $service_name ];
 			
-			if ( ! class_exists( $class_name ) ) {
+			if (! class_exists($class_name)) {
 				return null;
 			}
 
 			$instance = new $class_name();
-			$instance->set_config( $config );
+			$instance->set_config($config);
 			
 			self::$instances[ $cache_key ] = $instance;
 		}
@@ -66,8 +68,9 @@ class TranslationServiceFactory {
 	 *
 	 * @return array Array of service names.
 	 */
-	public static function get_available_services(): array {
-		return array_keys( self::$services );
+	public static function get_available_services(): array
+    {
+		return array_keys(self::$services);
 	}
 
 	/**
@@ -75,11 +78,12 @@ class TranslationServiceFactory {
 	 *
 	 * @return array Array of service names with labels.
 	 */
-	public static function get_service_labels(): array {
+	public static function get_service_labels(): array
+    {
 		return [
-			'mymemory'       => __( 'MyMemory Translation API', 'wp-smart-slug' ),
-			'libretranslate' => __( 'LibreTranslate', 'wp-smart-slug' ),
-			'deepl'          => __( 'DeepL API Free', 'wp-smart-slug' ),
+			'mymemory'       => __('MyMemory Translation API', 'wp-smart-slug'),
+			'libretranslate' => __('LibreTranslate', 'wp-smart-slug'),
+			'deepl'          => __('DeepL API Free', 'wp-smart-slug'),
 		];
 	}
 
@@ -91,17 +95,18 @@ class TranslationServiceFactory {
 	 *
 	 * @return bool True on success, false on failure.
 	 */
-	public static function register_service( string $name, string $class_name ): bool {
-		if ( isset( self::$services[ $name ] ) ) {
+	public static function register_service(string $name, string $class_name): bool
+    {
+		if (isset(self::$services[ $name ])) {
 			return false;
 		}
 
-		if ( ! class_exists( $class_name ) ) {
+		if (! class_exists($class_name)) {
 			return false;
 		}
 
-		$reflection = new \ReflectionClass( $class_name );
-		if ( ! $reflection->implementsInterface( TranslationServiceInterface::class ) ) {
+		$reflection = new \ReflectionClass($class_name);
+		if (! $reflection->implementsInterface(TranslationServiceInterface::class)) {
 			return false;
 		}
 
@@ -112,7 +117,8 @@ class TranslationServiceFactory {
 	/**
 	 * Clear instances cache.
 	 */
-	public static function clear_cache(): void {
+	public static function clear_cache(): void
+    {
 		self::$instances = [];
 	}
 }

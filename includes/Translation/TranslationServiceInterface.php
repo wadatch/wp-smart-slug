@@ -10,7 +10,8 @@ namespace WPSmartSlug\Translation;
 /**
  * Interface for translation services.
  */
-interface TranslationServiceInterface {
+interface TranslationServiceInterface
+{
 
 	/**
 	 * Translate text from source language to target language.
@@ -21,7 +22,7 @@ interface TranslationServiceInterface {
 	 *
 	 * @return TranslationResult Translation result object.
 	 */
-	public function translate( string $text, string $source = 'ja', string $target = 'en' ): TranslationResult;
+	public function translate(string $text, string $source = 'ja', string $target = 'en'): TranslationResult;
 
 	/**
 	 * Check if the service is available.
@@ -49,5 +50,5 @@ interface TranslationServiceInterface {
 	 *
 	 * @param array $config Configuration array.
 	 */
-	public function set_config( array $config ): void;
+	public function set_config(array $config): void;
 }

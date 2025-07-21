@@ -10,7 +10,8 @@ namespace WPSmartSlug\Core;
 /**
  * Main plugin class.
  */
-class Plugin {
+class Plugin
+{
 
 	/**
 	 * Instance of this class.
@@ -24,8 +25,9 @@ class Plugin {
 	 *
 	 * @return Plugin
 	 */
-	public static function get_instance() {
-		if ( null === self::$instance ) {
+	public static function get_instance()
+    {
+		if (null === self::$instance) {
 			self::$instance = new self();
 		}
 		return self::$instance;
@@ -34,16 +36,18 @@ class Plugin {
 	/**
 	 * Constructor.
 	 */
-	private function __construct() {
+	private function __construct()
+    {
 		$this->init();
 	}
 
 	/**
 	 * Initialize plugin functionality.
 	 */
-	private function init() {
+	private function init()
+    {
 		// Load admin functionality if in admin area.
-		if ( is_admin() ) {
+		if (is_admin()) {
 			$this->load_admin();
 		}
 
@@ -51,20 +55,21 @@ class Plugin {
 		$this->load_hooks();
 
 		// Show activation notice.
-		add_action( 'admin_notices', [ $this, 'activation_notice' ] );
+		add_action('admin_notices', [ $this, 'activation_notice' ]);
 	}
 
 	/**
 	 * Load admin functionality.
 	 */
-	private function load_admin() {
+	private function load_admin()
+    {
 		// Initialize admin manager.
-		if ( class_exists( 'WPSmartSlug\Admin\AdminManager' ) ) {
+		if (class_exists('WPSmartSlug\Admin\AdminManager')) {
 			\WPSmartSlug\Admin\AdminManager::get_instance();
 		}
 
 		// Initialize batch admin.
-		if ( class_exists( 'WPSmartSlug\Admin\BatchAdmin' ) ) {
+		if (class_exists('WPSmartSlug\Admin\BatchAdmin')) {
 			\WPSmartSlug\Admin\BatchAdmin::get_instance();
 		}
 	}
@@ -72,9 +77,10 @@ class Plugin {
 	/**
 	 * Load WordPress hooks for slug translation.
 	 */
-	private function load_hooks() {
+	private function load_hooks()
+    {
 		// Initialize hook manager.
-		if ( class_exists( 'WPSmartSlug\Hooks\HookManager' ) ) {
+		if (class_exists('WPSmartSlug\Hooks\HookManager')) {
 			\WPSmartSlug\Hooks\HookManager::get_instance();
 		}
 	}
@@ -82,8 +88,9 @@ class Plugin {
 	/**
 	 * Display activation notice.
 	 */
-	public function activation_notice() {
-		if ( ! get_transient( 'wp_smart_slug_activation_notice' ) ) {
+	public function activation_notice()
+    {
+		if (! get_transient('wp_smart_slug_activation_notice')) {
 			return;
 		}
 
@@ -93,8 +100,8 @@ class Plugin {
 				<?php
 				printf(
 					/* translators: %s: settings page link */
-					esc_html__( 'WP Smart Slug has been activated! Visit the %s to configure translation services.', 'wp-smart-slug' ),
-					'<a href="' . esc_url( admin_url( 'options-general.php?page=wp-smart-slug' ) ) . '">' . esc_html__( 'settings page', 'wp-smart-slug' ) . '</a>'
+					esc_html__('WP Smart Slug has been activated! Visit the %s to configure translation services.', 'wp-smart-slug'),
+					'<a href="' . esc_url(admin_url('options-general.php?page=wp-smart-slug')) . '">' . esc_html__('settings page', 'wp-smart-slug') . '</a>'
 				);
 				?>
 			</p>
@@ -102,6 +109,6 @@ class Plugin {
 		<?php
 
 		// Delete the transient.
-		delete_transient( 'wp_smart_slug_activation_notice' );
+		delete_transient('wp_smart_slug_activation_notice');
 	}
 }
