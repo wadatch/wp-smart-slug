@@ -1,0 +1,343 @@
+# Copyright (C) 2025 WADA Hiroki
+# This file is distributed under the MIT.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Smart Slug 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/wadatch/wp-smart-slug/issues\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-01-21T12:00:00+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.8.1\n"
+"X-Domain: wp-smart-slug\n"
+
+#: admin/AdminManager.php:47
+msgid "WP Smart Slug Settings"
+msgstr ""
+
+#: admin/AdminManager.php:48
+msgid "WP Smart Slug"
+msgstr ""
+
+#: admin/AdminManager.php:99
+msgid "Translation Service Settings"
+msgstr ""
+
+#: admin/AdminManager.php:105
+msgid "Feature Settings"
+msgstr ""
+
+#: admin/AdminManager.php:114
+msgid "Translation Service"
+msgstr ""
+
+#: admin/AdminManager.php:121
+msgid "API Key"
+msgstr ""
+
+#: admin/AdminManager.php:128
+msgid "API Host"
+msgstr ""
+
+#: admin/AdminManager.php:135
+msgid "Enable for Posts"
+msgstr ""
+
+#: admin/AdminManager.php:142
+msgid "Enable for Pages"
+msgstr ""
+
+#: admin/AdminManager.php:149
+msgid "Enable for Media"
+msgstr ""
+
+#: admin/AdminManager.php:181
+msgid "Settings"
+msgstr ""
+
+#: admin/AdminManager.php:195
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: admin/AdminManager.php:202
+msgid "Configure your preferred translation service and API credentials."
+msgstr ""
+
+#: admin/AdminManager.php:209
+msgid "Choose which content types should have their slugs automatically translated."
+msgstr ""
+
+#: admin/AdminManager.php:225
+msgid "Select the translation service to use for generating English slugs."
+msgstr ""
+
+#: admin/AdminManager.php:238
+msgid "Enter your API key if required by the selected service."
+msgstr ""
+
+#: admin/AdminManager.php:248
+msgid "Enter the API host URL for LibreTranslate instances."
+msgstr ""
+
+#: admin/AdminManager.php:258
+msgid "Automatically translate post slugs"
+msgstr ""
+
+#: admin/AdminManager.php:268
+msgid "Automatically translate page slugs"
+msgstr ""
+
+#: admin/AdminManager.php:278
+msgid "Automatically translate media filenames"
+msgstr ""
+
+#: admin/BatchAdmin.php:46
+msgid "WP Smart Slug - Batch Process"
+msgstr ""
+
+#: admin/BatchAdmin.php:47
+msgid "WP Smart Slug Batch"
+msgstr ""
+
+#: admin/BatchAdmin.php:62
+msgid "You do not have sufficient permissions."
+msgstr ""
+
+#: admin/views/batch-page.php:22
+msgid "Processing Statistics"
+msgstr ""
+
+#: admin/views/batch-page.php:26
+msgid "Total Posts"
+msgstr ""
+
+#: admin/views/batch-page.php:31
+msgid "Processed"
+msgstr ""
+
+#: admin/views/batch-page.php:36
+msgid "Remaining"
+msgstr ""
+
+#: admin/views/batch-page.php:41
+msgid "Progress"
+msgstr ""
+
+#: admin/views/batch-page.php:53
+msgid "Batch Processing"
+msgstr ""
+
+#: admin/views/batch-page.php:54
+msgid "Process existing posts and pages to translate their slugs to English."
+msgstr ""
+
+#: admin/views/batch-page.php:60
+msgid "Content Type"
+msgstr ""
+
+#: admin/views/batch-page.php:63
+msgid "All (Posts, Pages, Media)"
+msgstr ""
+
+#: admin/views/batch-page.php:64
+msgid "Posts Only"
+msgstr ""
+
+#: admin/views/batch-page.php:65
+msgid "Pages Only"
+msgstr ""
+
+#: admin/views/batch-page.php:66
+msgid "Media Only"
+msgstr ""
+
+#: admin/views/batch-page.php:72
+msgid "Batch Size"
+msgstr ""
+
+#: admin/views/batch-page.php:75
+msgid "Number of posts to process in each batch (1-100)."
+msgstr ""
+
+#: admin/views/batch-page.php:80
+msgid "Start Processing"
+msgstr ""
+
+#: admin/views/batch-page.php:84
+msgid "Stop Processing"
+msgstr ""
+
+#: admin/views/batch-page.php:88
+msgid "Refresh Statistics"
+msgstr ""
+
+#: admin/views/batch-page.php:92
+msgid "Reset Processing Status"
+msgstr ""
+
+#: admin/views/batch-page.php:98
+msgid "Processing Log"
+msgstr ""
+
+#: admin/views/batch-page.php:100
+msgid "Click \"Start Processing\" to begin."
+msgstr ""
+
+#: admin/views/settings-page.php:22
+msgid "About WP Smart Slug"
+msgstr ""
+
+#: admin/views/settings-page.php:23
+msgid "WP Smart Slug automatically translates Japanese URLs (slugs) to English to prevent long base64-encoded URLs in WordPress."
+msgstr ""
+
+#: admin/views/settings-page.php:25
+msgid "Translation Services"
+msgstr ""
+
+#: admin/views/settings-page.php:28
+msgid "MyMemory Translation API"
+msgstr ""
+
+#: admin/views/settings-page.php:29
+msgid "Free service with up to 5,000 requests per day. No API key required for basic usage."
+msgstr ""
+
+#: admin/views/settings-page.php:32
+msgid "LibreTranslate"
+msgstr ""
+
+#: admin/views/settings-page.php:33
+msgid "Open-source translation service. Requires host URL, API key may be optional depending on the instance."
+msgstr ""
+
+#: admin/views/settings-page.php:36
+msgid "DeepL API Free"
+msgstr ""
+
+#: admin/views/settings-page.php:37
+msgid "High-quality translation service with 500,000 characters per month free. Requires API key."
+msgstr ""
+
+#: admin/views/settings-page.php:40
+msgid "How it works"
+msgstr ""
+
+#: admin/views/settings-page.php:42
+msgid "When you create a post, page, or upload media with Japanese text"
+msgstr ""
+
+#: admin/views/settings-page.php:43
+msgid "The plugin automatically translates the title/filename to English"
+msgstr ""
+
+#: admin/views/settings-page.php:44
+msgid "A concise, URL-friendly slug is generated (1-2 words)"
+msgstr ""
+
+#: admin/views/settings-page.php:45
+msgid "Your URLs remain clean and SEO-friendly"
+msgstr ""
+
+#: admin/views/settings-page.php:48
+msgid "Note:"
+msgstr ""
+
+#: admin/views/settings-page.php:49
+msgid "If translation fails, the plugin will fall back to a generic slug to ensure your content is still accessible."
+msgstr ""
+
+#: includes/Hooks/BatchProcessor.php:75
+msgid "Failed to generate slug for post ID %d"
+msgstr ""
+
+#: includes/Hooks/BatchProcessor.php:96
+msgid "Failed to update post ID %1$d: %2$s"
+msgstr ""
+
+#: includes/Hooks/BatchProcessor.php:104
+msgid "Exception processing post ID %1$d: %2$s"
+msgstr ""
+
+#: includes/Translation/Services/DeepLService.php:63
+msgid "Empty text provided"
+msgstr ""
+
+#: includes/Translation/Services/DeepLService.php:69
+msgid "DeepL API key is required"
+msgstr ""
+
+#: includes/Translation/Services/DeepLService.php:110
+msgid "Translation request failed: %s"
+msgstr ""
+
+#: includes/Translation/Services/DeepLService.php:124
+msgid "Invalid DeepL API key"
+msgstr ""
+
+#: includes/Translation/Services/DeepLService.php:126
+msgid "DeepL API quota exceeded. Monthly limit reached."
+msgstr ""
+
+#: includes/Translation/Services/DeepLService.php:133
+msgid "DeepL API error: %s"
+msgstr ""
+
+#: includes/Translation/Services/DeepLService.php:142
+msgid "No translation returned"
+msgstr ""
+
+#: includes/Translation/Services/DeepLService.php:148
+msgid "Empty translation returned"
+msgstr ""
+
+#: includes/Translation/Services/LibreTranslateService.php:66
+msgid "Translation request failed: %s"
+msgstr ""
+
+#: includes/Translation/Services/LibreTranslateService.php:81
+msgid "API key is required for this LibreTranslate instance"
+msgstr ""
+
+#: includes/Translation/Services/LibreTranslateService.php:83
+msgid "Rate limit exceeded. Please try again later or provide an API key."
+msgstr ""
+
+#: includes/Translation/Services/LibreTranslateService.php:88
+msgid "LibreTranslate API error: %s"
+msgstr ""
+
+#: includes/Translation/Services/MyMemoryService.php:75
+msgid "MyMemory API error: %s"
+msgstr ""
+
+#: includes/Translation/Services/MyMemoryService.php:83
+msgid "MyMemory API quota exceeded. Please try again later or provide an API key."
+msgstr ""
+
+#: includes/Translation/TranslationServiceFactory.php:87
+msgid "MyMemory Translation API"
+msgstr ""
+
+#: includes/Translation/TranslationServiceFactory.php:88
+msgid "LibreTranslate"
+msgstr ""
+
+#: includes/Translation/TranslationServiceFactory.php:89
+msgid "DeepL API Free"
+msgstr ""
+
+#: wp-smart-slug.php:82
+msgid "WP Smart Slug has been activated! Visit the %s to configure translation services."
+msgstr ""
+
+#: wp-smart-slug.php:83
+msgid "settings page"
+msgstr ""
+
+#: wp-smart-slug.php:101
+msgid "WP Smart Slug is missing dependencies. Please run %s in the plugin directory."
+msgstr ""
