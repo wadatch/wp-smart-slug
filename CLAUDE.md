@@ -17,6 +17,41 @@ This is a WordPress plugin project in its initial stages. When implementing:
    - `/languages/` - Translation files
    - `/assets/` - CSS, JS, images
 
+## Build and Development Commands
+
+### Initial Setup
+```bash
+# Install Composer dependencies (when composer.json is created)
+composer install
+
+# Install npm dependencies (when package.json is created)
+npm install
+```
+
+### Build Commands
+```bash
+# Build plugin zip file for distribution
+zip -r wp-smart-slug.zip . -x "*.git*" -x "node_modules/*" -x "tests/*" -x "*.lock" -x "composer.json" -x "package*.json" -x "phpunit.xml" -x ".*" -x "*.md"
+
+# Run PHP CodeSniffer for WordPress standards
+vendor/bin/phpcs --standard=WordPress .
+
+# Fix PHP coding standards automatically
+vendor/bin/phpcbf --standard=WordPress .
+
+# Run PHPUnit tests
+vendor/bin/phpunit
+
+# Generate POT file for translations
+wp i18n make-pot . languages/wp-smart-slug.pot
+```
+
+### Development Workflow
+1. Make changes to PHP files
+2. Run `vendor/bin/phpcs` to check coding standards
+3. Run `vendor/bin/phpunit` to ensure tests pass
+4. Build distribution zip with the build command above
+
 ## Translation Services
 
 The plugin supports three translation APIs:
