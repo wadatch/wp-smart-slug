@@ -12,8 +12,8 @@ use WPSmartSlug\Translation\SlugGenerator;
 /**
  * Handles batch processing of existing content.
  */
-class BatchProcessor
-{
+class BatchProcessor {
+
 
 	/**
 	 * Slug generator instance.
@@ -27,8 +27,7 @@ class BatchProcessor
 	 *
 	 * @param SlugGenerator $slug_generator Slug generator instance.
 	 */
-	public function __construct(SlugGenerator $slug_generator)
-    {
+	public function __construct( SlugGenerator $slug_generator ) {
 		$this->slug_generator = $slug_generator;
 	}
 
@@ -40,42 +39,41 @@ class BatchProcessor
 	 *
 	 * @return array Processing results.
 	 */
-	public function process_posts(array $args = [], int $batch_size = 20): array
-    {
-		$default_args = [
-			'post_type'      => [ 'post', 'page' ],
+	public function process_posts( array $args = array(), int $batch_size = 20 ): array {
+		$default_args = array(
+			'post_type'      => array( 'post', 'page' ),
 			'post_status'    => 'any',
 			'posts_per_page' => $batch_size,
-			'meta_query'     => [
-				[
+			'meta_query'     => array(
+				array(
 					'key'     => '_wp_smart_slug_processed',
 					'compare' => 'NOT EXISTS',
-				],
-			],
-		];
+				),
+			),
+		);
 
-		$query_args = wp_parse_args($args, $default_args);
-		$posts      = get_posts($query_args);
-		$results    = [
+		$query_args = wp_parse_args( $args, $default_args );
+		$posts      = get_posts( $query_args );
+		$results    = array(
 			'processed' => 0,
 			'updated'   => 0,
-			'errors'    => [],
-		];
+			'errors'    => array(),
+		);
 
-		foreach ($posts as $post) {
-			$result = $this->process_single_post($post);
-			$results['processed']++;
+		foreach ( $posts as $post ) {
+			$result = $this->process_single_post( $post );
+			++$results['processed'];
 
-			if ($result['updated']) {
-				$results['updated']++;
+			if ( $result['updated'] ) {
+				++$results['updated'];
 			}
 
-			if (! empty($result['error'])) {
+			if ( ! empty( $result['error'] ) ) {
 				$results['errors'][] = $result['error'];
 			}
 
 			// Mark as processed.
-			update_post_meta($post->ID, '_wp_smart_slug_processed', time());
+			update_post_meta( $post->ID, '_wp_smart_slug_processed', time() );
 		}
 
 		return $results;
@@ -88,31 +86,30 @@ class BatchProcessor
 	 *
 	 * @return array Processing result.
 	 */
-	private function process_single_post(\WP_Post $post): array
-    {
-		$result = [
+	private function process_single_post( \WP_Post $post ): array {
+		$result = array(
 			'updated' => false,
 			'error'   => '',
-		];
+		);
 
 		// Check if post title needs translation.
-		if (! $this->needs_translation($post->post_title)) {
+		if ( ! $this->needs_translation( $post->post_title ) ) {
 			return $result;
 		}
 
 		// Check if slug already looks translated.
-		if (! $this->needs_translation($post->post_name)) {
+		if ( ! $this->needs_translation( $post->post_name ) ) {
 			return $result;
 		}
 
 		try {
 			// Generate translated slug.
-			$translated_slug = $this->slug_generator->generate_slug($post->post_title);
+			$translated_slug = $this->slug_generator->generate_slug( $post->post_title );
 
-			if (empty($translated_slug)) {
+			if ( empty( $translated_slug ) ) {
 				$result['error'] = sprintf(
 					/* translators: %d: post ID */
-					__('Failed to generate slug for post ID %d', 'wp-smart-slug'),
+					__( 'Failed to generate slug for post ID %d', 'wp-smart-slug' ),
 					$post->ID
 				);
 				return $result;
@@ -129,27 +126,27 @@ class BatchProcessor
 
 			// Update post slug.
 			$updated = wp_update_post(
-				[
+				array(
 					'ID'        => $post->ID,
 					'post_name' => $unique_slug,
-				],
+				),
 				true
 			);
 
-			if (is_wp_error($updated)) {
+			if ( is_wp_error( $updated ) ) {
 				$result['error'] = sprintf(
 					/* translators: %1$d: post ID, %2$s: error message */
-					__('Failed to update post ID %1$d: %2$s', 'wp-smart-slug'),
+					__( 'Failed to update post ID %1$d: %2$s', 'wp-smart-slug' ),
 					$post->ID,
 					$updated->get_error_message()
 				);
 			} else {
 				$result['updated'] = true;
 			}
-		} catch (Exception $e) {
+		} catch ( Exception $e ) {
 			$result['error'] = sprintf(
 				/* translators: %1$d: post ID, %2$s: error message */
-				__('Exception processing post ID %1$d: %2$s', 'wp-smart-slug'),
+				__( 'Exception processing post ID %1$d: %2$s', 'wp-smart-slug' ),
 				$post->ID,
 				$e->getMessage()
 			);
@@ -165,21 +162,20 @@ class BatchProcessor
 	 *
 	 * @return array Processing results.
 	 */
-	public function process_media(int $batch_size = 20): array
-    {
-		$args = [
+	public function process_media( int $batch_size = 20 ): array {
+		$args = array(
 			'post_type'      => 'attachment',
 			'post_status'    => 'inherit',
 			'posts_per_page' => $batch_size,
-			'meta_query'     => [
-				[
+			'meta_query'     => array(
+				array(
 					'key'     => '_wp_smart_slug_processed',
 					'compare' => 'NOT EXISTS',
-				],
-			],
-		];
+				),
+			),
+		);
 
-		return $this->process_posts($args, $batch_size);
+		return $this->process_posts( $args, $batch_size );
 	}
 
 	/**
@@ -187,16 +183,15 @@ class BatchProcessor
 	 *
 	 * @return int Number of posts reset.
 	 */
-	public function reset_processing_status(): int
-    {
+	public function reset_processing_status(): int {
 		global $wpdb;
 
 		$result = $wpdb->delete(
 			$wpdb->postmeta,
-			[ 'meta_key' => '_wp_smart_slug_processed' ]
+			array( 'meta_key' => '_wp_smart_slug_processed' )
 		);
 
-		return $result ?: 0;
+		return $result ? $result : 0;
 	}
 
 	/**
@@ -204,8 +199,7 @@ class BatchProcessor
 	 *
 	 * @return array Statistics array.
 	 */
-	public function get_processing_stats(): array
-    {
+	public function get_processing_stats(): array {
 		global $wpdb;
 
 		// Count total posts that need processing.
@@ -221,12 +215,12 @@ class BatchProcessor
 			WHERE meta_key = '_wp_smart_slug_processed'"
 		);
 
-		return [
+		return array(
 			'total'      => (int) $total_posts,
 			'processed'  => (int) $processed_posts,
 			'remaining'  => (int) $total_posts - (int) $processed_posts,
-			'percentage' => $total_posts > 0 ? round(( $processed_posts / $total_posts ) * 100, 2) : 0,
-		];
+			'percentage' => $total_posts > 0 ? round( ( $processed_posts / $total_posts ) * 100, 2 ) : 0,
+		);
 	}
 
 	/**
@@ -236,8 +230,7 @@ class BatchProcessor
 	 *
 	 * @return bool True if translation is needed.
 	 */
-	private function needs_translation(string $text): bool
-    {
-		return ! preg_match('/^[\x20-\x7E]*$/', $text);
+	private function needs_translation( string $text ): bool {
+		return ! preg_match( '/^[\x20-\x7E]*$/', $text );
 	}
 }

@@ -10,8 +10,8 @@ namespace WPSmartSlug\Translation;
 /**
  * Represents a translation result.
  */
-class TranslationResult
-{
+class TranslationResult {
+
 
 	/**
 	 * Translated text.
@@ -60,8 +60,7 @@ class TranslationResult
 	 *
 	 * @param array $data Result data.
 	 */
-	public function __construct(array $data)
-    {
+	public function __construct( array $data ) {
 		$this->text            = $data['text'] ?? '';
 		$this->source_language = $data['source_language'] ?? '';
 		$this->target_language = $data['target_language'] ?? '';
@@ -80,16 +79,15 @@ class TranslationResult
 	 *
 	 * @return self
 	 */
-	public static function success(string $text, string $source_language, string $target_language, string $service): self
-    {
+	public static function success( string $text, string $source_language, string $target_language, string $service ): self {
 		return new self(
-			[
+			array(
 				'text'            => $text,
 				'source_language' => $source_language,
 				'target_language' => $target_language,
 				'success'         => true,
 				'service'         => $service,
-			]
+			)
 		);
 	}
 
@@ -101,14 +99,13 @@ class TranslationResult
 	 *
 	 * @return self
 	 */
-	public static function error(string $error, string $service): self
-    {
+	public static function error( string $error, string $service ): self {
 		return new self(
-			[
+			array(
 				'success' => false,
 				'error'   => $error,
 				'service' => $service,
-			]
+			)
 		);
 	}
 
@@ -117,8 +114,7 @@ class TranslationResult
 	 *
 	 * @return string
 	 */
-	public function get_text(): string
-    {
+	public function get_text(): string {
 		return $this->text;
 	}
 
@@ -127,8 +123,7 @@ class TranslationResult
 	 *
 	 * @return string
 	 */
-	public function get_source_language(): string
-    {
+	public function get_source_language(): string {
 		return $this->source_language;
 	}
 
@@ -137,8 +132,7 @@ class TranslationResult
 	 *
 	 * @return string
 	 */
-	public function get_target_language(): string
-    {
+	public function get_target_language(): string {
 		return $this->target_language;
 	}
 
@@ -147,8 +141,7 @@ class TranslationResult
 	 *
 	 * @return bool
 	 */
-	public function is_success(): bool
-    {
+	public function is_success(): bool {
 		return $this->success;
 	}
 
@@ -157,8 +150,7 @@ class TranslationResult
 	 *
 	 * @return string|null
 	 */
-	public function get_error(): ?string
-    {
+	public function get_error(): ?string {
 		return $this->error;
 	}
 
@@ -167,8 +159,7 @@ class TranslationResult
 	 *
 	 * @return string
 	 */
-	public function get_service(): string
-    {
+	public function get_service(): string {
 		return $this->service;
 	}
 }

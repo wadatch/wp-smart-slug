@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="WP Smart Slug">
-    <description>Basic coding standards for WP Smart Slug plugin</description>
+    <description>WordPress coding standards for WP Smart Slug plugin</description>
 
     <!-- Files to check -->
     <file>includes</file>
@@ -13,11 +13,29 @@
     <exclude-pattern>*/tests/*</exclude-pattern>
     <exclude-pattern>*/assets/*</exclude-pattern>
 
-    <!-- Use basic PSR standards -->
-    <rule ref="PSR1"/>
-    <rule ref="PSR2">
-        <!-- Allow WordPress tab indentation -->
-        <exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
+    <!-- Use WordPress Coding Standards -->
+    <rule ref="WordPress">
+        <!-- Exclude specific rules that conflict with WordPress style -->
+        <exclude name="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid"/>
+        <exclude name="WordPress.NamingConventions.ValidVariableName.PropertyNotSnakeCase"/>
+        <exclude name="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase"/>
+        <exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+        <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+        
+        <!-- Allow longer lines for readability -->
+        <exclude name="Generic.Files.LineLength.TooLong"/>
+        
+        <!-- WordPress uses snake_case for methods -->
+        <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps"/>
+        
+        <!-- Allow WordPress array formatting -->
+        <exclude name="WordPress.Arrays.ArrayIndentation.ItemNotAligned"/>
+        <exclude name="WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned"/>
+    </rule>
+
+    <!-- Additional exclusions for our coding style -->
+    <rule ref="WordPress.NamingConventions.ValidFunctionName">
+        <exclude name="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid"/>
     </rule>
 
     <!-- Add command line arguments -->
