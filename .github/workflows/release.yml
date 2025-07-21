@@ -1,0 +1,146 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # Triggers on version tags like v1.0.0, v1.2.3, etc.
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, intl
+          coverage: none
+          
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+          
+      - name: Install dependencies
+        run: composer install --no-dev --optimize-autoloader --no-scripts
+        
+      - name: Run tests
+        run: |
+          composer install --dev --no-scripts
+          composer test
+          
+      - name: Run code standards check
+        run: composer phpcs
+        
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        
+      - name: Update plugin version
+        run: |
+          sed -i "s/Version: .*/Version: ${{ steps.version.outputs.VERSION }}/" wp-smart-slug.php
+          sed -i "s/define( 'WP_SMART_SLUG_VERSION', .* );/define( 'WP_SMART_SLUG_VERSION', '${{ steps.version.outputs.VERSION }}' );/" wp-smart-slug.php
+          
+      - name: Reinstall production dependencies
+        run: composer install --no-dev --optimize-autoloader --no-scripts
+        
+      - name: Create distribution
+        run: |
+          mkdir -p build/wp-smart-slug
+          
+          # Copy plugin files
+          cp -r admin build/wp-smart-slug/
+          cp -r assets build/wp-smart-slug/
+          cp -r includes build/wp-smart-slug/
+          cp -r languages build/wp-smart-slug/
+          cp -r vendor build/wp-smart-slug/
+          cp wp-smart-slug.php build/wp-smart-slug/
+          cp README.md build/wp-smart-slug/
+          cp LICENSE build/wp-smart-slug/
+          
+          # Create ZIP file
+          cd build
+          zip -r ../wp-smart-slug-${{ steps.version.outputs.VERSION }}.zip wp-smart-slug/
+          cd ..
+          
+          # Generate checksums
+          sha256sum wp-smart-slug-${{ steps.version.outputs.VERSION }}.zip > wp-smart-slug-${{ steps.version.outputs.VERSION }}.zip.sha256
+          md5sum wp-smart-slug-${{ steps.version.outputs.VERSION }}.zip > wp-smart-slug-${{ steps.version.outputs.VERSION }}.zip.md5
+          
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: WP Smart Slug v${{ steps.version.outputs.VERSION }}
+          body: |
+            ## WP Smart Slug v${{ steps.version.outputs.VERSION }}
+            
+            日本語URLを自動的に英語に翻訳するWordPressプラグインの最新版です。
+            
+            ### インストール方法
+            1. 下記のZIPファイルをダウンロード
+            2. WordPress管理画面で「プラグイン > 新規追加 > プラグインのアップロード」
+            3. ZIPファイルをアップロードして有効化
+            4. 「設定 > WP Smart Slug」で翻訳サービスを設定
+            
+            ### 対応翻訳サービス
+            - MyMemory Translation API (無料・APIキー不要)
+            - LibreTranslate (オープンソース)
+            - DeepL API Free (高品質・月間50万文字無料)
+            
+            ### 主な機能
+            - 投稿・固定ページ・メディアの自動スラッグ翻訳
+            - 既存コンテンツの一括処理
+            - 管理画面での詳細設定
+            
+            ### ファイル検証
+            ZIP ファイルの整合性確認用:
+            - SHA256: `cat wp-smart-slug-${{ steps.version.outputs.VERSION }}.zip.sha256`
+            - MD5: `cat wp-smart-slug-${{ steps.version.outputs.VERSION }}.zip.md5`
+            
+          draft: false
+          prerelease: false
+          
+      - name: Upload ZIP Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./wp-smart-slug-${{ steps.version.outputs.VERSION }}.zip
+          asset_name: wp-smart-slug-${{ steps.version.outputs.VERSION }}.zip
+          asset_content_type: application/zip
+          
+      - name: Upload SHA256 Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./wp-smart-slug-${{ steps.version.outputs.VERSION }}.zip.sha256
+          asset_name: wp-smart-slug-${{ steps.version.outputs.VERSION }}.zip.sha256
+          asset_content_type: text/plain
+          
+      - name: Upload MD5 Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./wp-smart-slug-${{ steps.version.outputs.VERSION }}.zip.md5
+          asset_name: wp-smart-slug-${{ steps.version.outputs.VERSION }}.zip.md5
+          asset_content_type: text/plain

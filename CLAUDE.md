@@ -109,6 +109,20 @@ wp i18n make-pot . languages/wp-smart-slug.pot --exclude=vendor,node_modules,bui
 6. **The issue will be automatically closed when PR is merged** (due to "Closes #X" in PR body)
 
 #### Build and Release
+
+##### Automated Release (Recommended)
+- Create and push a version tag to trigger automated release:
+  ```bash
+  git tag v1.0.1
+  git push origin v1.0.1
+  ```
+- GitHub Actions will automatically:
+  - Run tests and code quality checks
+  - Build distribution ZIP
+  - Create GitHub Release with assets
+  - Generate checksums
+
+##### Manual Build
 - Build distribution zip with: `./build.sh` or `make build`
 - The build script will:
   - Install production dependencies

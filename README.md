@@ -30,10 +30,23 @@
 
 ## インストール
 
-1. [Releases](https://github.com/wadatch/wp-smart-slug/releases)から最新のZIPファイルをダウンロード
+### GitHubリリースから（推奨）
+
+1. [Releases](https://github.com/wadatch/wp-smart-slug/releases)から最新の`wp-smart-slug-x.x.x.zip`をダウンロード
 2. WordPress管理画面で「プラグイン > 新規追加 > プラグインのアップロード」
-3. ZIPファイルをアップロードして有効化
+3. ダウンロードしたZIPファイルをアップロードして有効化
 4. 「設定 > WP Smart Slug」で翻訳サービスを設定
+
+### 手動ビルド
+
+開発版を使用する場合：
+
+```bash
+git clone https://github.com/wadatch/wp-smart-slug.git
+cd wp-smart-slug
+make build
+# dist/wp-smart-slug-x.x.x.zip が生成されます
+```
 
 ## 使用方法
 
@@ -96,9 +109,34 @@ make build
 make clean
 ```
 
-### ビルドプロセス
+### リリースプロセス
 
-ビルドスクリプト（`./build.sh`）は以下の処理を実行します：
+#### 自動リリース（推奨）
+
+バージョンタグをプッシュすると自動的にGitHub Actionsがビルド・リリースを実行：
+
+```bash
+# 新しいバージョンタグを作成
+git tag v1.0.1
+git push origin v1.0.1
+
+# GitHub Actionsが自動実行され、以下が作成されます：
+# - GitHub Releasesページにリリース
+# - ビルド済みZIPファイル
+# - チェックサムファイル（SHA256, MD5）
+```
+
+#### 手動ビルド
+
+ローカルでビルドする場合：
+
+```bash
+./build.sh
+# または
+make build
+```
+
+ビルドスクリプトは以下の処理を実行します：
 
 1. **品質チェック**
    - PHPUnitテストの実行
