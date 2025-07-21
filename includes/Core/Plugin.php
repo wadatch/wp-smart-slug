@@ -58,8 +58,10 @@ class Plugin {
 	 * Load admin functionality.
 	 */
 	private function load_admin() {
-		// Admin menu and settings will be initialized here.
-		// This will be implemented in the admin implementation issue.
+		// Initialize admin manager.
+		if ( class_exists( 'WPSmartSlug\Admin\AdminManager' ) ) {
+			\WPSmartSlug\Admin\AdminManager::get_instance();
+		}
 	}
 
 	/**

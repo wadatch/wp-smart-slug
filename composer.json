@@ -22,7 +22,8 @@
     },
     "autoload": {
         "psr-4": {
-            "WPSmartSlug\\": "includes/"
+            "WPSmartSlug\\": "includes/",
+            "WPSmartSlug\\Admin\\": "admin/"
         }
     },
     "autoload-dev": {
