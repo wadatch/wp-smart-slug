@@ -34,6 +34,8 @@
         "test": "phpunit",
         "phpcs": "phpcs",
         "phpcbf": "phpcbf",
+        "build": "./build.sh",
+        "build:dev": "./build.sh --dev",
         "post-install-cmd": [
             "phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/phpcompatibility-wp"
         ],

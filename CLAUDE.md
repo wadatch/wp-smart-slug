@@ -29,21 +29,48 @@ npm install
 ```
 
 ### Build Commands
-```bash
-# Build plugin zip file for distribution
-zip -r wp-smart-slug.zip . -x "*.git*" -x "node_modules/*" -x "tests/*" -x "*.lock" -x "composer.json" -x "package*.json" -x "phpunit.xml" -x ".*" -x "*.md"
 
+#### Using Build Script (Recommended)
+```bash
+# Build plugin for distribution (production build)
+./build.sh
+# or
+make build
+# or
+composer build
+
+# Development setup
+make dev-setup
+
+# Run tests
+make test
+
+# Check code standards
+make lint
+
+# Fix code standards
+make fix
+
+# Generate translation files
+make i18n
+
+# Clean build artifacts
+make clean
+```
+
+#### Manual Commands
+```bash
 # Run PHP CodeSniffer for WordPress standards
-vendor/bin/phpcs --standard=WordPress .
+vendor/bin/phpcs
 
 # Fix PHP coding standards automatically
-vendor/bin/phpcbf --standard=WordPress .
+vendor/bin/phpcbf
 
 # Run PHPUnit tests
 vendor/bin/phpunit
 
-# Generate POT file for translations
-wp i18n make-pot . languages/wp-smart-slug.pot
+# Generate POT file for translations (requires WP-CLI)
+wp i18n make-pot . languages/wp-smart-slug.pot --exclude=vendor,node_modules,build,dist
 ```
 
 ### Development Workflow
@@ -82,7 +109,13 @@ wp i18n make-pot . languages/wp-smart-slug.pot
 6. **The issue will be automatically closed when PR is merged** (due to "Closes #X" in PR body)
 
 #### Build and Release
-- Build distribution zip with: `zip -r wp-smart-slug.zip . -x "*.git*" -x "node_modules/*" -x "tests/*" -x "*.lock" -x "composer.json" -x "package*.json" -x "phpunit.xml" -x ".*" -x "*.md"`
+- Build distribution zip with: `./build.sh` or `make build`
+- The build script will:
+  - Install production dependencies
+  - Run tests and code standards checks
+  - Create a clean distribution ZIP file
+  - Generate checksums (SHA256 and MD5)
+  - Output files to `dist/` directory
 
 ## Translation Services
 
