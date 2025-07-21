@@ -49,8 +49,7 @@ jobs:
         
       - name: Update plugin version
         run: |
-          sed -i "s/Version: .*/Version: ${{ steps.version.outputs.VERSION }}/" wp-smart-slug.php
-          sed -i "s/define( 'WP_SMART_SLUG_VERSION', .* );/define( 'WP_SMART_SLUG_VERSION', '${{ steps.version.outputs.VERSION }}' );/" wp-smart-slug.php
+          python3 .github/scripts/update-version.py wp-smart-slug.php ${{ steps.version.outputs.VERSION }}
           
       - name: Reinstall production dependencies
         run: composer install --no-dev --optimize-autoloader --no-scripts
