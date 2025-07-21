@@ -62,14 +62,21 @@ class Plugin {
 		if ( class_exists( 'WPSmartSlug\Admin\AdminManager' ) ) {
 			\WPSmartSlug\Admin\AdminManager::get_instance();
 		}
+
+		// Initialize batch admin.
+		if ( class_exists( 'WPSmartSlug\Admin\BatchAdmin' ) ) {
+			\WPSmartSlug\Admin\BatchAdmin::get_instance();
+		}
 	}
 
 	/**
 	 * Load WordPress hooks for slug translation.
 	 */
 	private function load_hooks() {
-		// Hooks for post/page slug translation will be implemented here.
-		// This will be implemented in the WordPress hooks implementation issue.
+		// Initialize hook manager.
+		if ( class_exists( 'WPSmartSlug\Hooks\HookManager' ) ) {
+			\WPSmartSlug\Hooks\HookManager::get_instance();
+		}
 	}
 
 	/**
