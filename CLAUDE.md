@@ -47,10 +47,42 @@ wp i18n make-pot . languages/wp-smart-slug.pot
 ```
 
 ### Development Workflow
-1. Make changes to PHP files
-2. Run `vendor/bin/phpcs` to check coding standards
-3. Run `vendor/bin/phpunit` to ensure tests pass
-4. Build distribution zip with the build command above
+
+#### Issue-based Development Flow
+1. **Create a new branch for each issue**
+   ```bash
+   git checkout -b issue-{number}-{short-description}
+   # Example: git checkout -b issue-4-translation-abstraction
+   ```
+
+2. **Implement the feature/fix**
+   - Make changes to PHP files
+   - Run `vendor/bin/phpcs` to check coding standards
+   - Run `vendor/bin/phpunit` to ensure tests pass
+
+3. **Commit changes**
+   ```bash
+   git add .
+   git commit -m "Implement {feature description} (#{issue-number})"
+   ```
+
+4. **Push branch and create PR**
+   ```bash
+   git push origin issue-{number}-{short-description}
+   gh pr create --title "Fix #{issue-number}: {description}" --body "Closes #{issue-number}"
+   ```
+
+5. **After PR is merged**
+   ```bash
+   git checkout main
+   git pull origin main
+   git branch -d issue-{number}-{short-description}
+   ```
+
+6. **The issue will be automatically closed when PR is merged** (due to "Closes #X" in PR body)
+
+#### Build and Release
+- Build distribution zip with: `zip -r wp-smart-slug.zip . -x "*.git*" -x "node_modules/*" -x "tests/*" -x "*.lock" -x "composer.json" -x "package*.json" -x "phpunit.xml" -x ".*" -x "*.md"`
 
 ## Translation Services
 

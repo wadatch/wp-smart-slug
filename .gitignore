@@ -1,0 +1,39 @@
+# Dependencies
+/vendor/
+/node_modules/
+
+# Build files
+*.log
+*.lock
+composer.lock
+package-lock.json
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# WordPress
+*.sql
+*.tar.gz
+*.zip
+
+# Tests
+/tests/tmp/
+/tests/wordpress/
+/coverage/
+.phpunit.result.cache
+
+# Environment files
+.env
+.env.local
+
+# Cache
+/cache/
+*.cache
